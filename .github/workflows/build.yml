@@ -47,3 +47,10 @@ jobs:
         path: |
           NXDKHTTPSExample.iso
           bin
+    - name: Release
+      uses: softprops/action-gh-release@v2
+      if: startsWith(github.ref, 'refs/tags/')
+      with:
+        files:  |
+          NXDKHTTPSExample.iso
+          bin
