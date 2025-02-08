@@ -1,0 +1,7 @@
+[submodule "libs/nxdk"]
+	path = libs/nxdk
+	url = https://github.com/XboxDev/nxdk.git
+[submodule "libs/nxdk-mbedtls"]
+	path = libs/nxdk-mbedtls
+	url = https://github.com/thrimbor/nxdk-mbedtls.git
+	branch = nxdk

@@ -1,0 +1,47 @@
+# I based this on https://github.com/Ryzee119/LithiumX/blob/7462aa2ced67f7f0bb61b82eed3b1479bbc61b41/.github/workflows/build.yml
+
+name: Build
+
+on:
+  pull_request:
+    paths-ignore:
+      - 'LICENSE'
+      - '.gitignore'
+      - '*.md'
+    branches: [ main ]
+  push:
+    paths-ignore:
+      - 'LICENSE'
+      - '.gitignore'
+      - '*.md'
+    branches: [ main ]
+
+jobs:
+  Xbox:
+    runs-on: ubuntu-focal
+    steps:
+    - name: Install and Setup Dependencies
+      run: |
+        sudo apt-get update -y && sudo apt-get install -y bison clang cmake flex lld llvm ninja-build python3 python3-pip
+    - name: Checkout Repository
+      uses: actions/checkout@v4
+      with:
+        submodules: recursive
+    - name: Compile
+      # Ideally this whole project would be built with CMake and we wouldn't
+      # need to build Mbed-TLs separately
+      run: |
+        eval $(libs/nxdk/bin/activate -s)
+        python3 -m pip install libs/nxdk-mbedtls/docs/requirements.txt
+        mkdir libs/nxdk-mbedtls/build
+        cd libs/nxdk-mbedtls/build
+        nxdk-cmake -DCMAKE_POLICY_DEFAULT_CMP0069=NEW -DCMAKE_INTERPROCEDURAL_OPTIMIZATION=TRUE -DCMAKE_BUILD_TYPE=Release ../ -GNinja -DENABLE_PROGRAMS=OFF -DENABLE_TESTING=OFF
+        ninja
+        make -j$(nproc)
+    - name: Upload Artifact
+      uses: actions/upload-artifact@v4
+      with:
+        name: dash_xbox
+        path: |
+          NXDKHTTPSExample.iso
+          bin
