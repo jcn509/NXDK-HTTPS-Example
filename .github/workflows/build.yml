@@ -13,6 +13,9 @@ on:
       - '.gitignore'
       - '*.md'
     branches: [ main ]
+    tags: '*'
+  release:
+    types: [published]
 
 jobs:
   Xbox:
