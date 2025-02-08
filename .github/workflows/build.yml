@@ -27,7 +27,7 @@ jobs:
         submodules: recursive
     - name: Compile
       # Ideally this whole project would be built with CMake and we wouldn't
-      # need to build Mbed-TLs separately
+      # need to build Mbed-TLS separately
       run: |
         eval $(libs/nxdk/bin/activate -s)
         cd libs/nxdk
@@ -43,7 +43,7 @@ jobs:
     - name: Upload Artifact
       uses: actions/upload-artifact@v4
       with:
-        name: dash_xbox
+        name: NXDKHTTPSExample
         path: |
           NXDKHTTPSExample.iso
           bin
