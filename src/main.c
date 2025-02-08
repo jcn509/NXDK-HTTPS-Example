@@ -38,7 +38,7 @@ static const char ca_cert[] =
 "rqXRfboQnoZsG4q5WTP468SQvvG5\n"
 "-----END CERTIFICATE-----\n";
 
-
+// BEGIN: Glue code provided by Thrimbor
 int custom_mbedtls_net_send( void *ctx, const unsigned char *buf, size_t len )
 {
     int fd = ((mbedtls_net_context *) ctx)->fd;
@@ -114,7 +114,7 @@ int mbedtls_hardware_poll (void *data, unsigned char *output, size_t len, size_t
     *olen = written;
     return 0;
 }
-
+// END: Glue code provided by Thrimbor
 
 void try_https_request(void* arg) {
 
@@ -134,7 +134,6 @@ void try_https_request(void* arg) {
     sprintf(request, "GET %s HTTP/1.1\r\nHost: %s\r\nConnection: close\r\n\r\n", path, host);
 
     // Initialize structures
-    //mbedtls_net_init(&server_fd);
     mbedtls_ssl_init(&ssl);
     mbedtls_ssl_config_init(&conf);
     mbedtls_ctr_drbg_init(&ctr_drbg);
@@ -244,8 +243,6 @@ exit:
     mbedtls_ctr_drbg_free(&ctr_drbg);
     mbedtls_entropy_free(&entropy);
     mbedtls_x509_crt_free(&cacert);
-
-    //debugPrint("ret: %i\n", ret);
 }
 
 int main(void) {
