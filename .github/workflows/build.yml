@@ -30,7 +30,7 @@ jobs:
       # need to build Mbed-TLs separately
       run: |
         eval $(libs/nxdk/bin/activate -s)
-        python3 -m pip install libs/nxdk-mbedtls/docs/requirements.txt
+        python3 -m pip install -r libs/nxdk-mbedtls/docs/requirements.txt
         mkdir libs/nxdk-mbedtls/build
         cd libs/nxdk-mbedtls/build
         nxdk-cmake -DCMAKE_POLICY_DEFAULT_CMP0069=NEW -DCMAKE_INTERPROCEDURAL_OPTIMIZATION=TRUE -DCMAKE_BUILD_TYPE=Release ../ -GNinja -DENABLE_PROGRAMS=OFF -DENABLE_TESTING=OFF
